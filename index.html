@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>marketX | المتجر الإلكتروني</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --accent-orange: #d97706;
+            --accent-hover: #b45309;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border-color: #334155;
+            --success-color: #22c55e;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            padding-bottom: 50px;
+        }
+
+        /* الهيدر واللوغو */
+        header {
+            background-color: var(--card-bg);
+            border-bottom: 1px solid var(--border-color);
+            padding: 12px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-box {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .logo-img {
+            height: 45px;
+            width: auto;
+            object-fit: contain;
+            border-radius: 6px;
+        }
+
+        .logo-text {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: #ffffff;
+        }
+
+        .logo-text span {
+            color: var(--accent-orange);
+        }
+
+        .cart-icon-btn {
+            background: var(--bg-color);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+        }
+
+        .cart-badge {
+            background-color: var(--accent-orange);
+            color: white;
+            border-radius: 50%;
+            padding: 2px 8px;
+            font-size: 0.8rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .section-title {
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            border-right: 4px solid var(--accent-orange);
+            padding-right: 10px;
+        }
+
+        /* معرض الصور الـ 9 */
+        .gallery-box {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 15px;
+            margin-bottom: 30px;
+        }
+
+        .main-img-container {
+            width: 100%;
+            height: 380px;
+            border-radius: 12px;
+            overflow: hidden;
+            background-color: #0b1120;
+            border: 1px solid var(--border-color);
+            margin-bottom: 12px;
+        }
+
+        .main-img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .thumbs-wrapper {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding-bottom: 8px;
+        }
+
+        .thumbs-wrapper::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .thumbs-wrapper::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 10px;
+        }
+
+        .thumb-img {
+            min-width: 75px;
+            height: 75px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 2px solid var(--border-color);
+            cursor: pointer;
+            opacity: 0.6;
+            transition: all 0.2s ease;
+        }
+
+        .thumb-img:hover, .thumb-img.active {
+            opacity: 1;
+            border-color: var(--accent-orange);
+            transform: scale(1.05);
+        }
+
+        /* شبكة المنتجات */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 20px;
+        }
+
+        .product-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.2s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .product-img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            background-color: #1e293b;
+        }
+
+        .product-info {
+            padding: 15px;
+        }
+
+        .product-title {
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+
+        .product-price {
+            font-size: 1.2rem;
+            color: var(--accent-orange);
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .btn-add {
+            width: 100%;
+            background-color: var(--accent-orange);
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-add:hover {
+            background-color: var(--accent-hover);
+        }
+
+        /* قسم نموذج الطلب */
+        .checkout-section {
+            display: none;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 25px;
+            max-width: 600px;
+            margin: 40px auto;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 0.9rem;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 10px;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: white;
+            outline: none;
+        }
+
+        input:focus, select:focus {
+            border-color: var(--accent-orange);
+        }
+
+        .shipping-summary {
+            background-color: var(--bg-color);
+            border: 1px dashed var(--accent-orange);
+            border-radius: 8px;
+            padding: 12px;
+            margin: 15px 0;
+            font-size: 0.9rem;
+        }
+
+        .shipping-summary div {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+
+        .shipping-summary .total-price {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: var(--accent-orange);
+            border-top: 1px solid var(--border-color);
+            padding-top: 8px;
+            margin-top: 5px;
+        }
+
+        .btn-submit {
+            width: 100%;
+            background-color: var(--accent-orange);
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 600px) {
+            .main-img-container { height: 260px; }
+            .thumb-img { min-width: 60px; height: 60px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="nav-container">
+            <a href="#" class="logo-box">
+                <img src="logo.png" alt="marketX Logo" class="logo-img">
+                <div class="logo-text">market<span>X</span></div>
+            </a>
+            <button class="cart-icon-btn" onclick="scrollToCheckout()">
+                🛒 السلة <span class="cart-badge" id="cartCount">0</span>
+            </button>
+        </div>
+    </header>
+
+    <div class="container">
+        
+        <h2 class="section-title">معرض الصور</h2>
+        <div class="gallery-box">
+            <div class="main-img-container">
+                <img id="mainImage" src="img1.jpg" alt="صورة المنتج الرئيسية">
+            </div>
+            
+            <div class="thumbs-wrapper">
+                <img src="img1.jpg" class="thumb-img active" onclick="switchImage(this)">
+                <img src="img2.jpg" class="thumb-img" onclick="switchImage(this)">
+                <img src="img3.jpg" class="thumb-img" onclick="switchImage(this)">
+                <img src="img4.jpg" class="thumb-img" onclick="switchImage(this)">
+                <img src="img5.jpg" class="thumb-img" onclick="switchImage(this)">
+                <img src="img6.jpg" class="thumb-img" onclick="switchImage(this)">
+                <img src="img7.jpg" class="thumb-img" onclick="switchImage(this)">
+                <img src="img8.jpg" class="thumb-img" onclick="switchImage(this)">
+                <img src="img9.jpg" class="thumb-img" onclick="switchImage(this)">
+            </div>
+        </div>
+
+        <h2 class="section-title">أحدث المنتجات</h2>
+        <div class="products-grid">
+            
+            <div class="product-card">
+                <img src="img1.jpg" alt="جهاز عرض" class="product-img">
+                <div class="product-info">
+                    <h3 class="product-title">Projecteur portable Full HD HY320 Mini Android 11 WiFi6 et Bluetooth 5.0 - جهاز عرض ذكي HD</h3>
+                    <div class="product-price">16,000 د.ج</div>
+                    <button class="btn-add" onclick="addToCart('جهاز عرض Projecteur', 16000)">اطلب الآن</button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <img src="product2.jpg" alt="Râpe Multifonction 9en1 pour trancher les légumes – قطاعة خضر متعددة الإستعمالات" class="product-img">
+                <div class="product-info">
+                    <h3 class="product-title">Râpe Multifonction 9en1 pour trancher les légumes – قطاعة خضر متعددة الإستعمالات </h3>
+                    <div class="product-price">3,000 د.ج</div>
+                    <button class="btn-add" onclick="addToCart('Râpe Multifonction 9en1 pour trancher les légumes – قطاعة خضر متعددة الإستعمالات ', 3000)">اطلب الآن</button>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <img src="product3.jpg" alt="Lunettes Connectées F20 de Traduction IA et Audio Open-Ear Bluetooth 5.4 - نظارات المترجم الذكية بالذكاء الاصطناعي" class="product-img">
+                <div class="product-info">
+                    <h3 class="product-title">Lunettes Connectées F20 de Traduction IA et Audio Open-Ear Bluetooth 5.4 - نظارات المترجم الذكية بالذكاء الاصطناعي Pro</h3>
+                    <div class="product-price">8,000 د.ج</div>
+                    <button class="btn-add" onclick="addToCart('Lunettes Connectées F20 de Traduction IA et Audio Open-Ear Bluetooth 5.4 - نظارات المترجم الذكية بالذكاء الاصطناعي', 8000)">اطلب الآن</button>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="checkout-section" id="checkoutSection">
+            <h2 style="margin-bottom: 15px; text-align: center;">إتمام الطلب (الدفع عند الاستلام)</h2>
+            
+            <form action="https://formspree.io/f/xqervoqy" method="POST">
+                <input type="hidden" name="_subject" value="طلب جديد من متجر marketX">
+                <input type="hidden" id="selectedProductInput" name="المنتج المطلوب" value="">
+                <input type="hidden" id="finalTotalInput" name="المبلغ الإجمالي مع الشحن" value="">
+
+                <div class="form-group">
+                    <label>المنتج المختار:</label>
+                    <input type="text" id="selectedProductDisplay" readonly style="color: var(--accent-orange); font-weight: bold;">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>الاسم الكامل *</label>
+                        <input type="text" name="الاسم الكامل" required placeholder="اسمك الكامل">
+                    </div>
+                    <div class="form-group">
+                        <label>رقم الهاتف *</label>
+                        <input type="tel" name="رقم الهاتف" required placeholder="06XXXXXXXX">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>عنوان التوصيل *</label>
+                    <input type="text" name="عنوان التوصيل" required placeholder="الشارع / الحي">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>الولاية *</label>
+                        <select id="wilaya" name="الولاية" required onchange="updateCitiesAndShipping()">
+                            <option value="">اختر الولاية</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>المدينة *</label>
+                        <select id="city" name="المدينة" required>
+                            <option value="">اختر المدينة</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="shipping-summary">
+                    <div><span>سعر المنتج:</span> <span id="itemPriceDisplay">0 د.ج</span></div>
+                    <div><span>تكلفة التوصيل:</span> <span id="shippingFeeDisplay">اختر الولاية أولاً</span></div>
+                    <div class="total-price"><span>المجموع الكلي:</span> <span id="totalPriceDisplay">0 د.ج</span></div>
+                </div>
+
+                <div class="form-group">
+                    <label>ملاحظات إضافية</label>
+                    <textarea name="ملاحظة" placeholder="أي تفاصيل أخرى..."></textarea>
+                </div>
+
+                <button type="submit" class="btn-submit">تأكيد الشراء الآن</button>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        جميع الحقوق محفوظة &copy; marketX
+    </footer>
+
+    <script>
+        let currentProductPrice = 0;
+
+        // قائمة الولايات والتوصيل والبلديات
+        const wilayasData = {
+            "01- أدرار": { shipping: 900, cities: ["أدرار", "رقان", "أولف", "تيميمون", "برج باجي مختار", "أوقروت", "فنوغيل", "شروين"] },
+            "02- الشلف": { shipping: 600, cities: ["الشلف", "تنس", "تاجمونت", "أبو الحسن", "المرسى", "وادي الفضة", "بوقادير", "الزبوجة"] },
+    "03- الأغواط": { shipping: 700, cities: ["الأغواط", "أفلو", "حاسي الرمل", "قصر الحيران", "عين ماضي", "تاجموت"] },
+    "04- أم البواقي": { shipping: 600, cities: ["أم البواقي", "عين بيضاء", "عين مليلة", "مسكيانة", "عين فكرون", "ضلعة"] },
+    "05- باتنة": { shipping: 600, cities: ["باتنة", "بريكة", "عين التوتة", "أريس", "مروانة", "تازولت", "نقارين"] },
+    "06- بجاية": { shipping: 600, cities: ["بجاية", "أميزور", "أقبو", "القصر", "تيشي", "أوقاس", "خراطة", "سيدي عيش"] },
+    "07- بسكرة": { shipping: 700, cities: ["بسكرة", "طولقة", "سيدي عقبة", "أولاد جلال", "زريبة الوادي", "الفيض"] },
+    "08- بشار": { shipping: 900, cities: ["بشار", "القنادسة", "تاغيت", "بني عباس", "العبادلة", "تبلبالة"] },
+    "09- البليدة": { shipping: 500, cities: ["البليدة", "بوفاريك", "العفرون", "موزاية", "أولاد يعيش", "الصومعة", "الشبلي", "بوينان"] },
+    "10- البويرة": { shipping: 600, cities: ["البويرة", "سور الغزلان", "الأخضرية", "عين بسام", "مشدالة", "قاديرية"] },
+    "11- تمنراست": { shipping: 1000, cities: ["تمنراست", "عين صالح", "عين قزام", "أبلسة", "تظروك"] },
+    "12- تبسة": { shipping: 700, cities: ["تبسة", "الشريعة", "الونزة", "العوينات", "بير العاتر", "مرسط"] },
+    "13- تلمسان": { shipping: 600, cities: ["تلمسان", "مغنية", "منصورة", "سبدو", "الغزوات", "الرمشي", "شتوان"] },
+    "14- تيارت": { shipping: 600, cities: ["تيارت", "السوقر", "فرندة", "مهدية", "رحوية", "قصر الشلالة"] },
+    "15- تيزي وزو": { shipping: 600, cities: ["تيزي وزو", "أزازقة", "ذراع بن خدة", "عين الحمام", "ذراع الميزان", "بوغني", "تيقزيرت"] },
+    "16- الجزائر": { 
+        shipping: 500, 
+        cities: [
+            "الجزائر الوسطى", "سيدي امحمد", "المدنية", "المرادية", "باب الوادي", 
+            "القصبة", "بولوغين", "وادي قريش", "الرايس حميدو", "بئر مراد رايس", 
+            "حيدرة", "الأبيار", "بن عكنون", "بوزريعة", "بني مسوس", 
+            "عين البنيان", "الشراقة", "دالي إبراهيم", "أولاد فايت", "الحمامات", 
+            "زرالدة", "سطاوالي", "السويدانية", "الرحمانية", "المعالمة", 
+            "الدرارية", "العاشور", "بابا حسن", "خرايسية", "الدويرة", 
+            "بئر توتة", "تسالة المرجة", "أولاد شبل", "الرويبة", "الرغاية", 
+            "هراوة", "عين طاية", "برج البحري", "المرسى", "الدار البيضاء", 
+            "باب الزوار", "برج الكيفان", "المحمدية", "وادي السمار", "الحراش", 
+            "باش جراح", "بوروبة", "الكاليتوس", "براقي", "سيدي موسى", 
+            "جسر قسنطينة", "القبة", "حسين داي", "بلوزداد", "المقرية", "عين النعجة"
+        ] 
+    },
+    "17- الجلفة": { shipping: 700, cities: ["الجلفة", "عين وسارة", "مسعد", "حاسي بحبح", "الشارف", "دار الشيوخ"] },
+    "18- جيجل": { shipping: 600, cities: ["جيجل", "الطاهير", "الميلية", "العوانة", "زيامة منصورية", "الشقفة"] },
+    "19- سطيف": { shipping: 600, cities: ["سطيف", "العلمة", "عين أرنات", "عين ولمان", "بوقاعة", "عين الكبيرة"] },
+    "20- سعيدة": { shipping: 600, cities: ["سعيدة", "الحساسنة", "أولاد خالد", "سيدي بوبكر", "عين الحجر"] },
+    "21- سكيكدة": { shipping: 600, cities: ["سكيكدة", "الحروش", "عزابة", "القلمة", "تمالوس", "زردازة"] },
+    "22- سيدي بلعباس": { shipping: 600, cities: ["سيدي بلعباس", "تسالة", "سفيزف", "ابن باديس", "مولاي سليسن", "مراسلة"] },
+    "23- عنابة": { shipping: 600, cities: ["عنابة", "البوني", "الحجار", "برحال", "سرايدي", "عين الباردة"] },
+    "24- قالمة": { shipping: 600, cities: ["قالمة", "وادي الزناتي", "بوشقوف", "هليوبوليس", "عين مخلوف"] },
+    "25- قسنطينة": { shipping: 600, cities: ["قسنطينة", "الخروب", "زيغود يوسف", "حامة بوزيان", "ابن باديس", "عين سمارة"] },
+    "26- المدية": { shipping: 500, cities: ["المدية", "البرواقية", "قصر البخاري", "تابلاط", "شلالة العذورة", "عزfunctions"] },
+    "27- مستغانم": { shipping: 600, cities: ["مستغانم", "عين تادلس", "حاسي ماماش", "سيدي علي", "مزيغنة"] },
+    "28- المسيلة": { shipping: 600, cities: ["المسيلة", "بوسعادة", "سيدي عيسى", "مقدة", "عين الملح", "مجدل"] },
+    "29- معسكر": { shipping: 600, cities: ["معسكر", "سيق", "محمدية", "تيغنيف", "غريس", "عوف"] },
+    "30- ورقلة": { shipping: 800, cities: ["ورقلة", "تقرت", "حاسي مسعود", "الرويسات", "الطيبات", "النزلة"] },
+    "31- وهران": { shipping: 600, cities: ["وهران", "السانية", "أرزيو", "بئر الجير", "عين الترك", "قديل", "وادي تليلات"] },
+    "32- البيض": { shipping: 800, cities: ["البيض", "الأبيض سيدي الشيخ", "بوقطب", "بريزينة", "رقاصة"] },
+    "33- إليزي": { shipping: 1000, cities: ["إليزي", "جانت", "إن أميناس", "برج الحواس"] },
+    "34- برج بوعريريج": { shipping: 600, cities: ["برج بوعريريج", "راس الوادي", "مجانة", "برج زمورة", "المنصورة"] },
+    "35- بومرداس": { 
+        shipping: 600, 
+        cities: [
+            "بومرداس", "قورصو", "تيجلابين", "بودواو", "بودواو البحري", 
+            "بوزقزة قدارة", "الخروبة", "أولاد هداج", "خميس الخشنة", "أولاد موسى", 
+            "بني عمران", "الثنية", "سوق الحد", "عمال", "يسر", 
+            "سي مصطفى", "شعبة العامر", "تيمزريت", "برج منايل", "لقاطة", 
+            "جنات", "زموري", "الناصرية", "تاورقة", "بغلية", 
+            "سيدي داود", "دلس", "أعفير", "بن شود", "تاجلزة", 
+            "رأس جنات", "سيدي عمران"
+        ] 
+    },
+    "36- الطارف": { shipping: 600, cities: ["الطارف", "القالة", "بوحجار", "الذرعان", "بن مهيدي", "البسباس"] },
+    "37- تندوف": { shipping: 1000, cities: ["تندوف", "أم العسل"] },
+    "38- تسمسيلت": { shipping: 600, cities: ["تسمسيلت", "ثنية الحد", "برج بونعامة", "خميستي", "لرجام"] },
+    "39- الوادي": { shipping: 800, cities: ["الوادي", "جامعة", "المغير", "قمار", "الدبيلة", "حاسي خليفة"] },
+    "40- خنشلة": { shipping: 700, cities: ["خنشلة", "قايس", "ششار", "أولاد رشاش", "المحمل"] },
+    "41- سوق أهراس": { shipping: 700, cities: ["سوق أهراس", "سدراتة", "مداوروش", "تاورة", "المراهنة"] },
+    "42- تيبازة": { shipping: 500, cities: ["تيبازة", "شرشال", "القليعة", "فوكة", "بوسماعيل", "حجوط", "دواودة"] },
+    "43- ميلة": { shipping: 600, cities: ["ميلة", "شلغوم العيد", "تاجنانت", "فرجيوة", "قرارم قوقة"] },
+    "44- عين الدفلى": { shipping: 500, cities: ["عين الدفلى", "خميس مليانة", "العطاف", "جندل", "بوراشد", "مليانة", "روينة"] },
+    "45- النعامة": { shipping: 800, cities: ["النعامة", "مشرية", "عين الصفراء", "عسلة", "تيوط"] },
+    "46- عين تموشنت": { shipping: 600, cities: ["عين تموشنت", "بني صاف", "حمام بوحجر", "المالح", "ولهاصة"] },
+    "47- غرداية": { shipping: 800, cities: ["غرداية", "القرارة", "متليلي", "بني يزقن", "زلفانة", "المنيعة"] },
+    "48- غليزان": { shipping: 600, cities: ["غليزان", "وادي ارهيو", "مازونة", "عمي موسى", "زمورة"] },
+    "49- تيميمون": { shipping: 900, cities: ["تيميمون", "أوقروت", "شروين", "طلمين"] },
+    "50- برج باجي مختار": { shipping: 1100, cities: ["برج باجي مختار", "تيمياوين"] },
+    "51- أولاد جلال": { shipping: 800, cities: ["أولاد جلال", "سيدي خالد", "البسيرة"] },
+    "52- بني عباس": { shipping: 900, cities: ["بني عباس", "الواتة", "كرزاز", "إقلي"] },
+    "53- عين صالح": { shipping: 1000, cities: ["عين صالح", "فقارة الزوى", "إينغر"] },
+    "54- عين قزام": { shipping: 1100, cities: ["عين قزام", "تين زواتين"] },
+    "55- تقرت": { shipping: 800, cities: ["تقرت", "تماسين", "النزلة", "المقارين", "الطيبات"] },
+    "56- المغير": { shipping: 800, cities: ["المغير", "جامعة", "أم الطيور", "سيدي خليل"] },
+    "57- المنيعة": { shipping: 900, cities: ["المنيعة", "حاسي القارة", "حاسي الفحل"] },
+    "58- إيليزي (جانت)": { shipping: 1100, cities: ["جانت", "برج الحواس"] }
+};
+        const wilayaSelect = document.getElementById('wilaya');
+        const citySelect = document.getElementById('city');
+
+        // تعبئة قائمة الولايات
+        for (let wilaya in wilayasData) {
+            let option = document.createElement('option');
+            option.value = wilaya;
+            option.textContent = wilaya;
+            wilayaSelect.appendChild(option);
+        }
+
+        // تبديل الصور الـ 9
+        function switchImage(selectedThumb) {
+            document.getElementById('mainImage').src = selectedThumb.src;
+            document.querySelectorAll('.thumb-img').forEach(img => img.classList.remove('active'));
+            selectedThumb.classList.add('active');
+        }
+
+        // تحديث المدن ومبلغ الشحن تلقائياً
+        function updateCitiesAndShipping() {
+            const selectedWilayaKey = wilayaSelect.value;
+            citySelect.innerHTML = '<option value="">اختر المدينة</option>';
+            
+            if (selectedWilayaKey && wilayasData[selectedWilayaKey]) {
+                const wilayaInfo = wilayasData[selectedWilayaKey];
+                
+                // إضافة المدن
+                wilayaInfo.cities.forEach(city => {
+                    let option = document.createElement('option');
+                    option.value = city;
+                    option.textContent = city;
+                    citySelect.appendChild(option);
+                });
+
+                // حساب التوصيل والمجموع
+                const shippingFee = wilayaInfo.shipping;
+                const grandTotal = currentProductPrice + shippingFee;
+
+                document.getElementById('shippingFeeDisplay').textContent = `${shippingFee} د.ج`;
+                document.getElementById('totalPriceDisplay').textContent = `${grandTotal} د.ج`;
+                document.getElementById('finalTotalInput').value = `${grandTotal} د.ج (شامل الشحن)`;
+            } else {
+                document.getElementById('shippingFeeDisplay').textContent = "اختر الولاية أولاً";
+                document.getElementById('totalPriceDisplay').textContent = `${currentProductPrice} د.ج`;
+            }
+        }
+
+        function addToCart(productName, price) {
+            currentProductPrice = price;
+            document.getElementById('cartCount').textContent = "1";
+            document.getElementById('selectedProductInput').value = `${productName} (${price} د.ج)`;
+            document.getElementById('selectedProductDisplay').value = `${productName}`;
+            document.getElementById('itemPriceDisplay').textContent = `${price} د.ج`;
+            
+            updateCitiesAndShipping();
+
+            const checkoutSec = document.getElementById('checkoutSection');
+            checkoutSec.style.display = 'block';
+            checkoutSec.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function scrollToCheckout() {
+            const checkoutSec = document.getElementById('checkoutSection');
+            if(checkoutSec.style.display === 'block') {
+                checkoutSec.scrollIntoView({ behavior: 'smooth' });
+            } else {
+                alert("يرجى اختيار منتج أولاً بالضغط على 'اطلب الآن'");
+            }
+        }
+    </script>
+</body>
+</html>
